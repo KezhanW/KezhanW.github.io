@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>重裝系統後重新部署恢復 Hexo blog</title>
+      <link href="2020/12/26/RecoveryHexo/"/>
+      <url>2020/12/26/RecoveryHexo/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>以下方法只适用于没有删除 hexo blog文件夹</p></blockquote><p>因为重装系统后，Hexo 相关依赖插件/软件和在 C 盘的缓存资料都会被删除，以至于 Hexo 的相关命令都无法运行。所有，在重装系统后，都要重新部署 Hexo。但是重新部署并不难，只需要几个步骤就行。<br>因为我的 hexo blog 文件夹不存储于 C 盘，并没有因为重装系统被删掉。所有重新部署很容易。</p><h1 id="安裝-git-和-node"><a href="#安裝-git-和-node" class="headerlink" title="安裝 git 和 node"></a>安裝 git 和 node</h1><ul><li>git for windows: <a href="https://git-scm.com/">https://git-scm.com/</a></li><li>Node.js: <a href="https://nodejs.org/en/">https://nodejs.org/en/</a></li></ul><h1 id="生成-ssh-密钥"><a href="#生成-ssh-密钥" class="headerlink" title="生成 ssh 密钥"></a>生成 ssh 密钥</h1><p>配置 git 个人信息和生成 ssh 密钥<br>打开 git bash，输入</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;xxxxx&quot;</span><br><span class="line">git config --global user.email &quot;xxxxxx@xx.com&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;xxxxxx@xx.com&quot;</span><br></pre></td></tr></table></figure><p>把上面的 xxxx 换成自己的资料，然后一直 Enter 就行。</p><h1 id="设置-Github-的-ssh-密钥"><a href="#设置-Github-的-ssh-密钥" class="headerlink" title="设置 Github 的 ssh 密钥"></a>设置 Github 的 ssh 密钥</h1><p>当上面的运行完成后，会在 <code>C:\Users\主用户</code>里出现<code>.ssh</code>文件夹，里面有 id_rsa 和 id_rsa.pub 两个文件，複製 id_rsa.pub 的内容。<br><img src= "/img/loading.gif" data-lazy-src="https://s3.ax1x.com/2020/12/26/rhQr3n.png"></p><p>打开 Github 网页，依次是 <code>右上角Settings - SSH and GPG keys - New SSH key</code> 把複製的内容粘贴到 <code>Key</code>栏，然后保存。<br><img src= "/img/loading.gif" data-lazy-src="https://s3.ax1x.com/2020/12/26/rhQXUe.png"><br><img src= "/img/loading.gif" data-lazy-src="https://s3.ax1x.com/2020/12/26/rhQj4H.png"><br>PS：如果你有把 blog 同步到 coding 的，记得同样把 id_rsa.pub 的内容複製到 coding 的 ssh 公钥去，具体为<code>右上角个人设置 － SSH公钥 - 新增公钥</code><br><img src= "/img/loading.gif" data-lazy-src="https://s3.ax1x.com/2020/12/26/rhlyPH.png"></p><h1 id="安裝-Hexo"><a href="#安裝-Hexo" class="headerlink" title="安裝 Hexo"></a>安裝 Hexo</h1><p>git bash 上 输入 <code>npm install hexo-cli -g</code></p><h1 id="刪掉原-blog-文件夹部分文件"><a href="#刪掉原-blog-文件夹部分文件" class="headerlink" title="刪掉原 blog 文件夹部分文件"></a>刪掉原 blog 文件夹部分文件</h1><p>打开你原有的 blog 文件夹，只需保留<code>_config.yml，theme/，source/，scaffolds/，package.json，.gitignore</code> 这些项目，删除其他的文件。</p><h1 id="安装依赖文件"><a href="#安装依赖文件" class="headerlink" title="安装依赖文件"></a>安装依赖文件</h1><p>git bash 上 输入 <code>npm install</code></p><h1 id="安装部署插件"><a href="#安装部署插件" class="headerlink" title="安装部署插件"></a>安装部署插件</h1><p>git bash 上 输入 <code>npm install hexo-deployer-git --save</code><br>最后 运行 <code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code> 看看是否成功。</p><blockquote><p>本文参考 <a href="https://jerryc.me/posts/dda8c81b">https://jerryc.me/posts/dda8c81b</a></p></blockquote>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>支付宝PC网站支付</title>
       <link href="2020/12/25/AlipayPayment/"/>
       <url>2020/12/25/AlipayPayment/</url>

@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>重裝系統後重新部署恢復 Hexo blog | KezhanW</title><meta name="author" content="Kezhan Wang"><meta name="copyright" content="Kezhan Wang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="以下方法只适用于没有删除 hexo blog文件夹  因为重装系统后，Hexo 相关依赖插件&#x2F;软件和在 C 盘的缓存资料都会被删除，以至于 Hexo 的相关命令都无法运行。所有，在重装系统后，都要重新部署 Hexo。但是重新部署并不难，只需要几个步骤就行。因为我的 hexo blog 文件夹不存储于 C 盘，并没有因为重装系统被删掉。所有重新部署很容易。 安裝 git 和 node git fo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重裝系統後重新部署恢復 Hexo blog">
+<meta property="og:url" content="http://example.com/2020/12/26/RecoveryHexo/index.html">
+<meta property="og:site_name" content="KezhanW">
+<meta property="og:description" content="以下方法只适用于没有删除 hexo blog文件夹  因为重装系统后，Hexo 相关依赖插件&#x2F;软件和在 C 盘的缓存资料都会被删除，以至于 Hexo 的相关命令都无法运行。所有，在重装系统后，都要重新部署 Hexo。但是重新部署并不难，只需要几个步骤就行。因为我的 hexo blog 文件夹不存储于 C 盘，并没有因为重装系统被删掉。所有重新部署很容易。 安裝 git 和 node git fo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.ax1x.com/2020/12/26/rhK6Gn.png">
+<meta property="article:published_time" content="2020-12-26T04:55:56.000Z">
+<meta property="article:modified_time" content="2020-12-26T05:17:54.606Z">
+<meta property="article:author" content="Kezhan Wang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.ax1x.com/2020/12/26/rhK6Gn.png"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://example.com/2020/12/26/RecoveryHexo/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-12-26 13:17:54'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/Gallery/index"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://s3.ax1x.com/2020/12/26/rhK6Gn.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">KezhanW</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/Gallery/index"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">重裝系統後重新部署恢復 Hexo blog</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-26T04:55:56.000Z" title="发表于 2020-12-26 12:55:56">2020-12-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-12-26T05:17:54.606Z" title="更新于 2020-12-26 13:17:54">2020-12-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">464</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>以下方法只适用于没有删除 hexo blog文件夹</p>
+</blockquote>
+<p>因为重装系统后，Hexo 相关依赖插件/软件和在 C 盘的缓存资料都会被删除，以至于 Hexo 的相关命令都无法运行。所有，在重装系统后，都要重新部署 Hexo。但是重新部署并不难，只需要几个步骤就行。<br>因为我的 hexo blog 文件夹不存储于 C 盘，并没有因为重装系统被删掉。所有重新部署很容易。</p>
+<h1 id="安裝-git-和-node"><a href="#安裝-git-和-node" class="headerlink" title="安裝 git 和 node"></a>安裝 git 和 node</h1><ul>
+<li>git for windows: <a target="_blank" rel="noopener" href="https://git-scm.com/">https://git-scm.com/</a></li>
+<li>Node.js: <a target="_blank" rel="noopener" href="https://nodejs.org/en/">https://nodejs.org/en/</a></li>
+</ul>
+<h1 id="生成-ssh-密钥"><a href="#生成-ssh-密钥" class="headerlink" title="生成 ssh 密钥"></a>生成 ssh 密钥</h1><p>配置 git 个人信息和生成 ssh 密钥<br>打开 git bash，输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;xxxxx&quot;</span><br><span class="line">git config --global user.email &quot;xxxxxx@xx.com&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;xxxxxx@xx.com&quot;</span><br></pre></td></tr></table></figure>
+<p>把上面的 xxxx 换成自己的资料，然后一直 Enter 就行。</p>
+<h1 id="设置-Github-的-ssh-密钥"><a href="#设置-Github-的-ssh-密钥" class="headerlink" title="设置 Github 的 ssh 密钥"></a>设置 Github 的 ssh 密钥</h1><p>当上面的运行完成后，会在 <code>C:\Users\主用户</code>里出现<code>.ssh</code>文件夹，里面有 id_rsa 和 id_rsa.pub 两个文件，複製 id_rsa.pub 的内容。<br><img src= "/img/loading.gif" data-lazy-src="https://s3.ax1x.com/2020/12/26/rhQr3n.png"></p>
+<p>打开 Github 网页，依次是 <code>右上角Settings - SSH and GPG keys - New SSH key</code> 把複製的内容粘贴到 <code>Key</code>栏，然后保存。<br><img src= "/img/loading.gif" data-lazy-src="https://s3.ax1x.com/2020/12/26/rhQXUe.png"><br><img src= "/img/loading.gif" data-lazy-src="https://s3.ax1x.com/2020/12/26/rhQj4H.png"><br>PS：如果你有把 blog 同步到 coding 的，记得同样把 id_rsa.pub 的内容複製到 coding 的 ssh 公钥去，具体为<code>右上角个人设置 － SSH公钥 - 新增公钥</code><br><img src= "/img/loading.gif" data-lazy-src="https://s3.ax1x.com/2020/12/26/rhlyPH.png"></p>
+<h1 id="安裝-Hexo"><a href="#安裝-Hexo" class="headerlink" title="安裝 Hexo"></a>安裝 Hexo</h1><p>git bash 上 输入 <code>npm install hexo-cli -g</code></p>
+<h1 id="刪掉原-blog-文件夹部分文件"><a href="#刪掉原-blog-文件夹部分文件" class="headerlink" title="刪掉原 blog 文件夹部分文件"></a>刪掉原 blog 文件夹部分文件</h1><p>打开你原有的 blog 文件夹，只需保留<code>_config.yml，theme/，source/，scaffolds/，package.json，.gitignore</code> 这些项目，删除其他的文件。</p>
+<h1 id="安装依赖文件"><a href="#安装依赖文件" class="headerlink" title="安装依赖文件"></a>安装依赖文件</h1><p>git bash 上 输入 <code>npm install</code></p>
+<h1 id="安装部署插件"><a href="#安装部署插件" class="headerlink" title="安装部署插件"></a>安装部署插件</h1><p>git bash 上 输入 <code>npm install hexo-deployer-git --save</code><br>最后 运行 <code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code> 看看是否成功。</p>
+<blockquote>
+<p>本文参考 <a target="_blank" rel="noopener" href="https://jerryc.me/posts/dda8c81b">https://jerryc.me/posts/dda8c81b</a></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/KezhanW">Kezhan Wang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://kezhanw.github.io/2020/12/26/RecoveryHexo">https://kezhanw.github.io/2020/12/26/RecoveryHexo</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">KezhanW</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://s3.ax1x.com/2020/12/26/rhK6Gn.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2020/12/25/AlipayPayment/"><img class="next-cover" data-lazy-src="https://s3.ax1x.com/2020/12/25/rflvB8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">支付宝PC网站支付</div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Kezhan Wang</div><div class="author-info__description">KezhanW is talking here.</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/KezhanW"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/KezhanW" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1771257773&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://weibo.com/u/5895223990" target="_blank" title="weibo"><i class="fab fa-weibo"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">Welcome to my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D-git-%E5%92%8C-node"><span class="toc-number">1.</span> <span class="toc-text">安裝 git 和 node</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%9F%E6%88%90-ssh-%E5%AF%86%E9%92%A5"><span class="toc-number">2.</span> <span class="toc-text">生成 ssh 密钥</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-Github-%E7%9A%84-ssh-%E5%AF%86%E9%92%A5"><span class="toc-number">3.</span> <span class="toc-text">设置 Github 的 ssh 密钥</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D-Hexo"><span class="toc-number">4.</span> <span class="toc-text">安裝 Hexo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%AA%E6%8E%89%E5%8E%9F-blog-%E6%96%87%E4%BB%B6%E5%A4%B9%E9%83%A8%E5%88%86%E6%96%87%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">刪掉原 blog 文件夹部分文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E6%96%87%E4%BB%B6"><span class="toc-number">6.</span> <span class="toc-text">安装依赖文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2%E6%8F%92%E4%BB%B6"><span class="toc-number">7.</span> <span class="toc-text">安装部署插件</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/RecoveryHexo/" title="重裝系統後重新部署恢復 Hexo blog"><img data-lazy-src="https://s3.ax1x.com/2020/12/26/rhK6Gn.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="重裝系統後重新部署恢復 Hexo blog"/></a><div class="content"><a class="title" href="/2020/12/26/RecoveryHexo/" title="重裝系統後重新部署恢復 Hexo blog">重裝系統後重新部署恢復 Hexo blog</a><time datetime="2020-12-26T04:55:56.000Z" title="发表于 2020-12-26 12:55:56">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/25/AlipayPayment/" title="支付宝PC网站支付"><img data-lazy-src="https://s3.ax1x.com/2020/12/25/rflvB8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="支付宝PC网站支付"/></a><div class="content"><a class="title" href="/2020/12/25/AlipayPayment/" title="支付宝PC网站支付">支付宝PC网站支付</a><time datetime="2020-12-25T15:16:07.000Z" title="发表于 2020-12-25 23:16:07">2020-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/25/WXSendMessage/" title="微信小程序给用户发送消息"><img data-lazy-src="https://s3.ax1x.com/2020/12/25/rW4nJg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="微信小程序给用户发送消息"/></a><div class="content"><a class="title" href="/2020/12/25/WXSendMessage/" title="微信小程序给用户发送消息">微信小程序给用户发送消息</a><time datetime="2020-12-25T10:26:45.000Z" title="发表于 2020-12-25 18:26:45">2020-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/25/regular/" title="常用正则表达式"><img data-lazy-src="https://s3.ax1x.com/2020/12/25/rWVIV1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常用正则表达式"/></a><div class="content"><a class="title" href="/2020/12/25/regular/" title="常用正则表达式">常用正则表达式</a><time datetime="2020-12-25T07:10:02.000Z" title="发表于 2020-12-25 15:10:02">2020-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/25/GetWXOpenId/" title="获取微信小程序OpenId"><img data-lazy-src="https://s3.ax1x.com/2020/12/25/rWSFij.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="获取微信小程序OpenId"/></a><div class="content"><a class="title" href="/2020/12/25/GetWXOpenId/" title="获取微信小程序OpenId">获取微信小程序OpenId</a><time datetime="2020-12-25T05:22:01.000Z" title="发表于 2020-12-25 13:22:01">2020-12-25</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://s3.ax1x.com/2020/12/26/rhK6Gn.png)"><div id="footer-wrap"><div class="copyright">&copy;2020 By Kezhan Wang</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script></div></body></html>
