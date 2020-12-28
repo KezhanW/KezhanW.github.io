@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>.NET小方法</title>
+      <link href="2020/12/28/netSmallMethod/"/>
+      <url>2020/12/28/netSmallMethod/</url>
+      
+        <content type="html"><![CDATA[<h1 id="trim-–去除首尾字符"><a href="#trim-–去除首尾字符" class="headerlink" title="trim()–去除首尾字符"></a>trim()–去除首尾字符</h1><ul><li><code>trim()</code> 删除字符串头部及尾部出现的空格</li><li><code>TrimStart()</code> 只删除字符串的头部的空格</li><li><code>TrimEnd()</code> 只删除字符串尾部的空格</li></ul><p>定义和用法:</p><blockquote><p>trim() 方法删除字符串头部及尾部出现的空格，删除的过程为从外到内，直到碰到一个非空格的字符为止，所以不管前后有多少个连续的空格都会被删除掉。<br>trim() 方法不会改变原始字符串。<br>trim() 方法不适用于 null, undefined, Number 类型。</p></blockquote><p>示例：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var str &#x3D; &quot;       Runoob        &quot;;</span><br><span class="line">alert(str.trim());</span><br></pre></td></tr></table></figure><p>输出结果：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Runoob</span><br></pre></td></tr></table></figure><p>扩展：<br>去除末尾无效零<br>先去除零 如果最后有小数点则转化为<code>Decimal</code>去除掉</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">item.Quantity &#x3D; item.Quantity.ToString().TrimEnd(&#39;0&#39;).ToDecimal();</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> .NET </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>力软框架--表格</title>
       <link href="2020/12/26/lrjfGrid/"/>
       <url>2020/12/26/lrjfGrid/</url>
