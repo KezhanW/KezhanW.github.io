@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NPOI读取Excel | KezhanW</title><meta name="keywords" content="Excel,.NET"><meta name="author" content="Kezhan Wang"><meta name="copyright" content="Kezhan Wang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="读取Excel 本文导出Excel表格是基于NPOI  NPOI是指构建在POI 3.x版本之上的一个程序，NPOI可以在没有安装Office的情况下对Word或Excel文档进行读写操作。 NPOI的下载与引用:https:&#x2F;&#x2F;kezhanw.github.io&#x2F;2020&#x2F;12&#x2F;30&#x2F;ExportExcel&#x2F; 1234567891011121314151617181920212223242526">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NPOI读取Excel">
+<meta property="og:url" content="http://example.com/2021/01/11/NPOIreadExcel/index.html">
+<meta property="og:site_name" content="KezhanW">
+<meta property="og:description" content="读取Excel 本文导出Excel表格是基于NPOI  NPOI是指构建在POI 3.x版本之上的一个程序，NPOI可以在没有安装Office的情况下对Word或Excel文档进行读写操作。 NPOI的下载与引用:https:&#x2F;&#x2F;kezhanw.github.io&#x2F;2020&#x2F;12&#x2F;30&#x2F;ExportExcel&#x2F; 1234567891011121314151617181920212223242526">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.ax1x.com/2020/12/28/roEMpq.jpg">
+<meta property="article:published_time" content="2021-01-11T10:10:25.000Z">
+<meta property="article:modified_time" content="2021-01-11T10:25:26.964Z">
+<meta property="article:author" content="Kezhan Wang">
+<meta property="article:tag" content="Excel">
+<meta property="article:tag" content=".NET">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.ax1x.com/2020/12/28/roEMpq.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://example.com/2021/01/11/NPOIreadExcel/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-01-11 18:25:26'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/Gallery/index"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://s3.ax1x.com/2020/12/28/roEMpq.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">KezhanW</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/Gallery/index"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">NPOI读取Excel</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-11T10:10:25.000Z" title="发表于 2021-01-11 18:10:25">2021-01-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-11T10:25:26.964Z" title="更新于 2021-01-11 18:25:26">2021-01-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">632</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="读取Excel"><a href="#读取Excel" class="headerlink" title="读取Excel"></a>读取Excel</h1><blockquote>
+<p>本文导出Excel表格是基于NPOI</p>
+</blockquote>
+<p>NPOI是指构建在POI 3.x版本之上的一个程序，NPOI可以在没有安装Office的情况下对Word或Excel文档进行读写操作。</p>
+<p>NPOI的下载与引用:<a target="_blank" rel="noopener" href="https://kezhanw.github.io/2020/12/30/ExportExcel/">https://kezhanw.github.io/2020/12/30/ExportExcel/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; &lt;summary&gt;  </span><br><span class="line">&#x2F;&#x2F;&#x2F; 将excel导入到datatable  </span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;  </span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;filePath&quot;&gt;excel路径&lt;&#x2F;param&gt;  </span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;isColumnName&quot;&gt;第一行是否是列名&lt;&#x2F;param&gt;  </span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;returns&gt;返回datatable&lt;&#x2F;returns&gt;  </span><br><span class="line">public static DataTable ExcelToDataTable(string filePath, bool isColumnName)</span><br><span class="line">&#123;</span><br><span class="line">    DataTable dataTable &#x3D; null;</span><br><span class="line">    FileStream fs &#x3D; null;</span><br><span class="line">    DataColumn column &#x3D; null;</span><br><span class="line">    DataRow dataRow &#x3D; null;</span><br><span class="line">    IWorkbook workbook &#x3D; null;</span><br><span class="line">    ISheet sheet &#x3D; null;</span><br><span class="line">    IRow row &#x3D; null;</span><br><span class="line">    ICell cell &#x3D; null;</span><br><span class="line">    int startRow &#x3D; 0;</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        fs &#x3D; File.OpenRead(filePath);</span><br><span class="line">        &#x2F;&#x2F; 2007版本  </span><br><span class="line">        if (filePath.IndexOf(&quot;.xlsx&quot;) &gt; 0)</span><br><span class="line">            workbook &#x3D; new XSSFWorkbook(fs);</span><br><span class="line">        &#x2F;&#x2F; 2003版本  </span><br><span class="line">        else if (filePath.IndexOf(&quot;.xls&quot;) &gt; 0)</span><br><span class="line">            workbook &#x3D; new HSSFWorkbook(fs);</span><br><span class="line"></span><br><span class="line">        if (workbook !&#x3D; null)</span><br><span class="line">        &#123;</span><br><span class="line">            sheet &#x3D; workbook.GetSheetAt(0);&#x2F;&#x2F;读取第一个sheet，当然也可以循环读取每个sheet  </span><br><span class="line">            dataTable &#x3D; new DataTable();</span><br><span class="line">            if (sheet !&#x3D; null)</span><br><span class="line">            &#123;</span><br><span class="line">                int rowCount &#x3D; sheet.LastRowNum;&#x2F;&#x2F;总行数  </span><br><span class="line">                if (rowCount &gt; 0)</span><br><span class="line">                &#123;</span><br><span class="line">                    IRow firstRow &#x3D; sheet.GetRow(0);&#x2F;&#x2F;第一行  </span><br><span class="line">                    int cellCount &#x3D; firstRow.LastCellNum;&#x2F;&#x2F;列数  </span><br><span class="line"></span><br><span class="line">                    &#x2F;&#x2F;构建datatable的列  </span><br><span class="line">                    if (isColumnName)</span><br><span class="line">                    &#123;</span><br><span class="line">                        startRow &#x3D; 1;&#x2F;&#x2F;如果第一行是列名，则从第二行开始读取  </span><br><span class="line">                        for (int i &#x3D; firstRow.FirstCellNum; i &lt; cellCount; ++i)</span><br><span class="line">                        &#123;</span><br><span class="line">                            cell &#x3D; firstRow.GetCell(i);</span><br><span class="line">                            if (cell !&#x3D; null)</span><br><span class="line">                            &#123;</span><br><span class="line">                                if (cell.StringCellValue !&#x3D; null)</span><br><span class="line">                                &#123;</span><br><span class="line">                                    column &#x3D; new DataColumn(cell.StringCellValue);</span><br><span class="line">                                    dataTable.Columns.Add(column);</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    else</span><br><span class="line">                    &#123;</span><br><span class="line">                        for (int i &#x3D; firstRow.FirstCellNum; i &lt; cellCount; ++i)</span><br><span class="line">                        &#123;</span><br><span class="line">                            column &#x3D; new DataColumn(&quot;column&quot; + (i + 1));</span><br><span class="line">                            dataTable.Columns.Add(column);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    &#x2F;&#x2F;填充行  </span><br><span class="line">                    for (int i &#x3D; startRow; i &lt;&#x3D; rowCount; ++i)</span><br><span class="line">                    &#123;</span><br><span class="line">                        row &#x3D; sheet.GetRow(i);</span><br><span class="line">                        if (row &#x3D;&#x3D; null) continue;</span><br><span class="line"></span><br><span class="line">                        dataRow &#x3D; dataTable.NewRow();</span><br><span class="line">                        for (int j &#x3D; row.FirstCellNum; j &lt; cellCount; ++j)</span><br><span class="line">                        &#123;</span><br><span class="line">                            cell &#x3D; row.GetCell(j);</span><br><span class="line">                            if (cell &#x3D;&#x3D; null)</span><br><span class="line">                            &#123;</span><br><span class="line">                                dataRow[j] &#x3D; &quot;&quot;;</span><br><span class="line">                            &#125;</span><br><span class="line">                            else</span><br><span class="line">                            &#123;</span><br><span class="line">                                &#x2F;&#x2F;CellType(Unknown &#x3D; -1,Numeric &#x3D; 0,String &#x3D; 1,Formula &#x3D; 2,Blank &#x3D; 3,Boolean &#x3D; 4,Error &#x3D; 5,)  </span><br><span class="line">                                switch (cell.CellType)</span><br><span class="line">                                &#123;</span><br><span class="line">                                    case CellType.Blank:</span><br><span class="line">                                        dataRow[j] &#x3D; &quot;&quot;;</span><br><span class="line">                                        break;</span><br><span class="line">                                    case CellType.Numeric:</span><br><span class="line">                                        short format &#x3D; cell.CellStyle.DataFormat;</span><br><span class="line">                                        &#x2F;&#x2F;对时间格式（2015.12.5、2015&#x2F;12&#x2F;5、2015-12-5等）的处理  </span><br><span class="line">                                        if (format &#x3D;&#x3D; 14 || format &#x3D;&#x3D; 31 || format &#x3D;&#x3D; 57 || format &#x3D;&#x3D; 58)</span><br><span class="line">                                            dataRow[j] &#x3D; cell.DateCellValue;</span><br><span class="line">                                        else</span><br><span class="line">                                            dataRow[j] &#x3D; cell.NumericCellValue;</span><br><span class="line">                                        break;</span><br><span class="line">                                    case CellType.String:</span><br><span class="line">                                        dataRow[j] &#x3D; cell.StringCellValue;</span><br><span class="line">                                        break;</span><br><span class="line">                                    &#x2F;&#x2F;单元格函数计算</span><br><span class="line">                                    case CellType.Formula:</span><br><span class="line">                                        dataRow[j] &#x3D; cell.NumericCellValue;</span><br><span class="line">                                        break;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        dataTable.Rows.Add(dataRow);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return dataTable;</span><br><span class="line">    &#125;</span><br><span class="line">    catch (Exception)</span><br><span class="line">    &#123;</span><br><span class="line">        if (fs !&#x3D; null)</span><br><span class="line">        &#123;</span><br><span class="line">            fs.Close();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>本文源于 <a target="_blank" rel="noopener" href="https://download.csdn.net/detail/coderk2014/9328779">https://download.csdn.net/detail/coderk2014/9328779</a></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/KezhanW">Kezhan Wang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://kezhanw.github.io/2021/1/11/NPOIreadExcel">https://kezhanw.github.io/2021/1/11/NPOIreadExcel</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">KezhanW</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Excel/">Excel</a><a class="post-meta__tags" href="/tags/NET/">.NET</a></div><div class="post_share"><div class="social-share" data-image="https://s3.ax1x.com/2020/12/28/roEMpq.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2020/12/30/ExportExcel/"><img class="next-cover" data-lazy-src="https://s3.ax1x.com/2020/12/28/roE1XT.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">NPOI导出Excel</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/12/24/ReadExcel/" title="上传/读取不规则数据的Excel"><img class="cover" data-lazy-src="https://s3.ax1x.com/2020/12/25/rWSkJs.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-24</div><div class="title">上传/读取不规则数据的Excel</div></div></a></div><div><a href="/2020/12/30/ExportExcel/" title="NPOI导出Excel"><img class="cover" data-lazy-src="https://s3.ax1x.com/2020/12/28/roE1XT.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-30</div><div class="title">NPOI导出Excel</div></div></a></div><div><a href="/2020/12/28/netSmallMethod/" title=".NET小方法"><img class="cover" data-lazy-src="https://s3.ax1x.com/2020/12/28/roEuhn.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-28</div><div class="title">.NET小方法</div></div></a></div><div><a href="/2020/12/28/numzab/" title=".NET数字与字母的相互转换"><img class="cover" data-lazy-src="https://s3.ax1x.com/2020/12/28/roE8nU.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-28</div><div class="title">.NET数字与字母的相互转换</div></div></a></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Kezhan Wang</div><div class="author-info__description">Life is a fucking movie</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/KezhanW"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/KezhanW" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1771257773&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://weibo.com/u/5895223990" target="_blank" title="weibo"><i class="fab fa-weibo"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">Welcome to my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96Excel"><span class="toc-number">1.</span> <span class="toc-text">读取Excel</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/01/11/NPOIreadExcel/" title="NPOI读取Excel"><img data-lazy-src="https://s3.ax1x.com/2020/12/28/roEMpq.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NPOI读取Excel"/></a><div class="content"><a class="title" href="/2021/01/11/NPOIreadExcel/" title="NPOI读取Excel">NPOI读取Excel</a><time datetime="2021-01-11T10:10:25.000Z" title="发表于 2021-01-11 18:10:25">2021-01-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/30/ExportExcel/" title="NPOI导出Excel"><img data-lazy-src="https://s3.ax1x.com/2020/12/28/roE1XT.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NPOI导出Excel"/></a><div class="content"><a class="title" href="/2020/12/30/ExportExcel/" title="NPOI导出Excel">NPOI导出Excel</a><time datetime="2020-12-30T11:48:01.000Z" title="发表于 2020-12-30 19:48:01">2020-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/28/numzab/" title=".NET数字与字母的相互转换"><img data-lazy-src="https://s3.ax1x.com/2020/12/28/roE8nU.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt=".NET数字与字母的相互转换"/></a><div class="content"><a class="title" href="/2020/12/28/numzab/" title=".NET数字与字母的相互转换">.NET数字与字母的相互转换</a><time datetime="2020-12-28T13:14:24.000Z" title="发表于 2020-12-28 21:14:24">2020-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/28/netSmallMethod/" title=".NET小方法"><img data-lazy-src="https://s3.ax1x.com/2020/12/28/roEuhn.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt=".NET小方法"/></a><div class="content"><a class="title" href="/2020/12/28/netSmallMethod/" title=".NET小方法">.NET小方法</a><time datetime="2020-12-28T02:58:33.000Z" title="发表于 2020-12-28 10:58:33">2020-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/lrjfGrid/" title="力软框架--表格"><img data-lazy-src="https://s3.ax1x.com/2020/12/26/rfIEfU.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="力软框架--表格"/></a><div class="content"><a class="title" href="/2020/12/26/lrjfGrid/" title="力软框架--表格">力软框架--表格</a><time datetime="2020-12-26T10:43:04.000Z" title="发表于 2020-12-26 18:43:04">2020-12-26</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://s3.ax1x.com/2020/12/28/roEMpq.jpg)"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Kezhan Wang</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script></div></body></html>
