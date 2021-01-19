@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>JS刷新当前iframe页面</title>
+      <link href="2021/01/19/jsRefreshiframe/"/>
+      <url>2021/01/19/jsRefreshiframe/</url>
+      
+        <content type="html"><![CDATA[<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> frameId = <span class="built_in">window</span>.frameElement &amp;&amp; <span class="built_in">window</span>.frameElement.id || <span class="string">&#x27;&#x27;</span>;<span class="comment">//获取当前页面的Id</span></span><br><span class="line">parent.document.getElementById(frameId).contentWindow.location.reload();<span class="comment">//刷新iframe</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> JS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>NPOI读取Excel</title>
       <link href="2021/01/11/NPOIreadExcel/"/>
       <url>2021/01/11/NPOIreadExcel/</url>
