@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>解决 viewer.js 动态更新图片导致无法预览的问题</title>
+      <link href="2021/04/08/viewerbug/"/>
+      <url>2021/04/08/viewerbug/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p><a href="https://pan.baidu.com/s/1MB1byEjNH7wph4eq4UczIw">viewer.js 下载地址</a><br>提取码:a1ns</p></blockquote><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化 viewer.js</span></span><br><span class="line"><span class="keyword">var</span> viewer = <span class="keyword">new</span> Viewer(<span class="built_in">document</span>.getElementById(<span class="string">&#x27;upllist&#x27;</span>), &#123;</span><br><span class="line">    toolbar: <span class="literal">true</span>, <span class="comment">//显示工具条</span></span><br><span class="line">    <span class="function"><span class="title">viewed</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        viewer.zoomTo(<span class="number">0.75</span>); <span class="comment">// 图片显示比例 75%</span></span><br><span class="line">    &#125;,</span><br><span class="line">    show: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  <span class="comment">// 动态加载图片后，更新实例</span></span><br><span class="line">        viewer.update();</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>JS刷新当前iframe页面</title>
       <link href="2021/01/19/jsRefreshiframe/"/>
       <url>2021/01/19/jsRefreshiframe/</url>
