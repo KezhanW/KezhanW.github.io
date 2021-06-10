@@ -4,11 +4,11 @@
   
     
     <entry>
-      <title>layuiCheckbox</title>
+      <title>layui表格单击行勾选复选框</title>
       <link href="2021/06/10/layuiCheckbox/"/>
       <url>2021/06/10/layuiCheckbox/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<blockquote><p>实现思路<br>直接修改复选框选中状态和伪复选框（DIV）Class<br>但是调用checkStatus获取不到选中的行<br>查看底层源代码checkStatus方法的实现是缓存数据中的属性来判断是否选中<br>所以循环缓存数据，用index找到操作数据修改，再次获取选中行就可以获取到了</p></blockquote><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">table.on(<span class="string">&#x27;row(userTable)&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">　　<span class="keyword">var</span> flag = !obj.tr.find(<span class="string">&#x27;:checkbox:first&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>);</span><br><span class="line">　　obj.tr.find(<span class="string">&#x27;:checkbox&#x27;</span>).prop(<span class="string">&#x27;checked&#x27;</span>,flag);</span><br><span class="line">　　<span class="keyword">if</span>(flag)&#123;</span><br><span class="line">　　　　obj.tr.find(<span class="string">&#x27;.layui-form-checkbox&#x27;</span>).addClass(<span class="string">&#x27;layui-form-checked&#x27;</span>);</span><br><span class="line">　　&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">　　　　obj.tr.find(<span class="string">&#x27;.layui-form-checkbox&#x27;</span>).removeClass(<span class="string">&#x27;layui-form-checked&#x27;</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">　　layui.each(table.cache.userTable,<span class="function"><span class="keyword">function</span>(<span class="params">i,item</span>)</span>&#123;</span><br><span class="line">　　　　<span class="keyword">if</span>(obj.tr.index()==item.LAY_TABLE_INDEX)&#123;</span><br><span class="line">　　　　　　item.LAY_CHECKED=flag;</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>]]></content>
       
       
       
