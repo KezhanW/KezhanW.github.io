@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>发送FTP</title>
+      <link href="2023/02/27/SendFTP/"/>
+      <url>2023/02/27/SendFTP/</url>
+      
+        <content type="html"><![CDATA[<h1 id="List取并集、交集、差集"><a href="#List取并集、交集、差集" class="headerlink" title="List取并集、交集、差集"></a>List取并集、交集、差集</h1><ul><li>并集：Union</li><li>交集：Intersect</li><li>差集：Except</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">List&lt;T&gt; list1 &#x3D; new List&lt;T&gt;();</span><br><span class="line">List&lt;T&gt; list2 &#x3D; new List&lt;T&gt;();</span><br><span class="line"></span><br><span class="line">List&lt;T&gt; list &#x3D; new List&lt;T&gt;();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;并集, 包含1、2全部</span><br><span class="line">list &#x3D; list1.Union(list2);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;交集，1、2相同部分</span><br><span class="line">list &#x3D; list1.Intersect(list2);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;差集，1中存在但2中不存在</span><br><span class="line">list &#x3D; list1.Except(list2)</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> .NET </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>表单验证rules</title>
       <link href="2022/05/22/rules/"/>
       <url>2022/05/22/rules/</url>
