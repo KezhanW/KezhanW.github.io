@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>流水号生成</title>
+      <link href="2023/07/21/SoftNumericalOrder/"/>
+      <url>2023/07/21/SoftNumericalOrder/</url>
+      
+        <content type="html"><![CDATA[<p>流水号组件所有的功能类都在 HslCommunication.BasicFramework 命名空间，所以再使用之前先添加</p><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> HslCommunication.BasicFramework</span><br></pre></td></tr></table></figure><p> 首先，流水号的类就应该设置在服务器端，这样就能对所有的客户端进行掌控申请。服务器端的实例化如下所示：<br> <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">FormSeqTest_Load</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   HslCommunication.BasicFramework.SoftNumericalOrder softNumericalOrder = <span class="keyword">new</span> HslCommunication.BasicFramework.SoftNumericalOrder(</span><br><span class="line">        <span class="string">&quot;ABC&quot;</span>,              <span class="comment">// &quot;ABC201711090000001&quot; 中的ABC前缀，代码中仍然可以更改ABC</span></span><br><span class="line">        <span class="string">&quot;yyyyMMdd&quot;</span>,         <span class="comment">// &quot;ABC201711090000001&quot; 中的20171109，可以格式化时间，也可以为&quot;&quot;，也可以设置为&quot;yyyyMMddHHmmss&quot;;</span></span><br><span class="line">        <span class="number">7</span>,                  <span class="comment">// &quot;ABC201711090000001&quot; 中的0000001，总位数为7，然后不停的累加，即使日期时间变了，也不停的累加，最好长度设置大一些</span></span><br><span class="line">        Application.StartupPath + <span class="string">@&quot;\numericalOrder.txt&quot;</span>  <span class="comment">// 该生成器会自动存储当前值到文件去，实例化时从文件加载，自动实现数据同步</span></span><br><span class="line">        );</span><br><span class="line"> </span><br><span class="line"> <span class="comment">// 获取流水号，带有默认的数据头，也即实例化中的&quot;ABC&quot;</span></span><br><span class="line"> <span class="built_in">string</span> seqNumber = softNumericalOrder.GetNumericalOrder();</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 获取流水号，带有自定义的数据头</span></span><br><span class="line">    <span class="built_in">string</span> seqNumber = softNumericalOrder.GetNumericalOrder(<span class="string">&quot;XYZ&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><blockquote><p>注意：序号的位数最高可以设置为20位，即2的64次方，任何系统都够用了，一秒钟生成1亿个，可以使用5800年</p></blockquote>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Autojs介绍及案例</title>
       <link href="2023/07/18/AutojsExample/"/>
       <url>2023/07/18/AutojsExample/</url>
