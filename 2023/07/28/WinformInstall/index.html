@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Winform打包成安装程序 | KezhanW</title><meta name="author" content="Kezhan Wang"><meta name="copyright" content="Kezhan Wang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="1.打开Visual Studio，选择菜单栏“扩展”，在“管理扩展页面”搜索“installer”，选择 Microsoft Visual Studio Installer Projects 下载安装。  2.安装完成后。右击解决方案，选择“添加”，“新建项目  3.在添加新项目框中，搜索“Setup Project”，添加启动项目，然后设置启动项目的名称和位置  4.右键Application">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Winform打包成安装程序">
+<meta property="og:url" content="http://example.com/2023/07/28/WinformInstall/index.html">
+<meta property="og:site_name" content="KezhanW">
+<meta property="og:description" content="1.打开Visual Studio，选择菜单栏“扩展”，在“管理扩展页面”搜索“installer”，选择 Microsoft Visual Studio Installer Projects 下载安装。  2.安装完成后。右击解决方案，选择“添加”，“新建项目  3.在添加新项目框中，搜索“Setup Project”，添加启动项目，然后设置启动项目的名称和位置  4.右键Application">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.ax1x.com/2020/12/25/rW4nJg.jpg">
+<meta property="article:published_time" content="2023-07-28T01:10:48.000Z">
+<meta property="article:modified_time" content="2023-07-28T03:12:27.127Z">
+<meta property="article:author" content="Kezhan Wang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.ax1x.com/2020/12/25/rW4nJg.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://example.com/2023/07/28/WinformInstall/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-07-28 11:12:27'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/Gallery/index"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://s3.ax1x.com/2020/12/25/rW4nJg.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">KezhanW</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/Gallery/index"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Winform打包成安装程序</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-28T01:10:48.000Z" title="发表于 2023-07-28 09:10:48">2023-07-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-28T03:12:27.127Z" title="更新于 2023-07-28 11:12:27">2023-07-28</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">852</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>1.打开Visual Studio，选择菜单栏“扩展”，在“管理扩展页面”搜索“installer”，选择 Microsoft Visual Studio Installer Projects 下载安装。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdiNt.png"></p>
+<p>2.安装完成后。右击解决方案，选择“添加”，“新建项目</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdZjg.png"></p>
+<p>3.在添加新项目框中，搜索“Setup Project”，添加启动项目，然后设置启动项目的名称和位置</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdl40.png"><br><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdQNq.png"></p>
+<p>4.右键Application Foluder-&gt;Add-&gt;文件</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdJvF.png"></p>
+<p>5.debug文件夹中的所有文件ctrl+a全选，点击“打开”，会自动添加到目录</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdNDJ.png"><br><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxddER.png"></p>
+<p>6.注意：ctrl+a导入之后，debug文件夹中文件会全部导进来，但是文件夹不会粘贴进来，需要我们手动新建对应文件夹，挨个将文件导入，如下(项目里没有文件夹的跳过此步骤)</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdDC6.png"><br><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdsgO.png"></p>
+<p>建完文件夹后需要将Debug里面每个文件夹的文件导入</p>
+<p> 在新建的文件夹右键→Add→文件</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdJvF.png"></p>
+<p>将文件夹里面的文件全选，然后“打开”。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdWVA.png"></p>
+<p> 其他文件以此类推，debug里面有几个文件夹，我们这里就需要新建几个文件夹，然后将debug文件挨个导入。</p>
+<p>7.添加“项目输出”，选择软件的主输出页面文件</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdj5q.png"><br><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxdzGV.png"><br><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxwPr4.png"></p>
+<p>8.为主输出创建快捷方式，右键这个主输出-&gt;Create Shortcut to 创建一个快捷方式</p>
+<p> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxwkZ9.png"><br> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxwEI1.png"></p>
+<p>9.添加卸载程序</p>
+<p> Application Folder右键→add→文件→在打开的面板中搜索“msiexec.exe”，点击打开</p>
+<p> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxsJv6.png"><br> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxsyxP.png"></p>
+<p>10.点击Setup1（您建的项目）将ProductCode 属性的值复制</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxsTx0.png"></p>
+<p> 点击Shortcut to msiexec.exe =&gt; 将复制的ProductCode 属性值 粘贴在Arguments 属性中，然后在最前面加上 /X （注：/X后有一个空格）</p>
+<p> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxsbrT.png"></p>
+<p>11.最后将卸载拖动到User’s Programs Menu（用户的程序菜单）</p>
+<p> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCx6pkQ.png"></p>
+<p>12.添加程序图标</p>
+<p> 右键点击“User’s Destop”中主输出文件的快捷方式，然后再其属性中找到，Icon属性，浏览选取你所要添加的图标（记住，应该先将图标放在打包的文件夹中，不然无法进行指定）</p>
+<p> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxyZid.png"></p>
+<p>13.设置安装环境</p>
+<p> 右击Setup1（您建的项目）=&gt; 属性</p>
+<p> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxyiqO.png"></p>
+<p> 点击Prerequisites…</p>
+<p> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxyKQP.png"></p>
+<p> 选择如下选项 =&gt; 确定**<em>（此处选择所使用的.net的版本，此处我选用的是.NET桌面运行5.0.7（x86）.NET桌面运行5.0.7（x84））**</em></p>
+<p> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxyQL8.png"></p>
+<p>14、生成安装包及卸载程序</p>
+<p> 右键打包程序，点击“生成”</p>
+<p> <img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxyJij.png"></p>
+<p>15.合成</p>
+<p>1.将要打在一起的文件及文件夹全部选中，右键 →“添加到压缩文件”，在打开的压缩面板的“常规”选项卡中勾选“创建自解压格式压缩文件”，此时会发现默认的压缩文件名编程了  .exe 后缀名了；压缩方式最好选择“存储”，这样打包后的程序会很快解压缩并运行。如图：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxycWR.png"></p>
+<p>2.设置运行文件：再切换到“高级”选项卡，点击“自解压选项”，“常规”→设置→设置程序→提取后运行和提取前运行里写入setup.exe 如图：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxy2S1.png"></p>
+<p>3.设置安装程序文件的图标</p>
+<p>切换到“文本和图标”，点击“从文件加载自解压文件图标”后的“浏览”按钮，选择安装程序文件的图标，如图：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxyWy6.png"></p>
+<p>4.切换到“模式”下，勾选“解包到临时文件夹”和“隐藏全部”，再切换到“更新”下，勾选“覆盖所有文件”，一路点击“确定”，大功告成！！</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.ax1x.com/2023/07/28/pCxyO6P.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/KezhanW">Kezhan Wang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://kezhanw.github.io/2023/07/28/WinformInstall">https://kezhanw.github.io/2023/07/28/WinformInstall</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">KezhanW</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://s3.ax1x.com/2020/12/25/rW4nJg.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/07/21/SoftNumericalOrder/"><img class="next-cover" data-lazy-src="https://s3.ax1x.com/2020/12/27/r5Em79.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">流水号生成</div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Kezhan Wang</div><div class="author-info__description">Life is a fucking movie</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/KezhanW"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/KezhanW" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1771257773&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://weibo.com/u/5895223990" target="_blank" title="weibo"><i class="fab fa-weibo"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">Welcome to my Blog</div></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/28/WinformInstall/" title="Winform打包成安装程序"><img data-lazy-src="https://s3.ax1x.com/2020/12/25/rW4nJg.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Winform打包成安装程序"/></a><div class="content"><a class="title" href="/2023/07/28/WinformInstall/" title="Winform打包成安装程序">Winform打包成安装程序</a><time datetime="2023-07-28T01:10:48.000Z" title="发表于 2023-07-28 09:10:48">2023-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/21/SoftNumericalOrder/" title="流水号生成"><img data-lazy-src="https://s3.ax1x.com/2020/12/27/r5Em79.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="流水号生成"/></a><div class="content"><a class="title" href="/2023/07/21/SoftNumericalOrder/" title="流水号生成">流水号生成</a><time datetime="2023-07-21T05:49:02.000Z" title="发表于 2023-07-21 13:49:02">2023-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/18/AutojsExample/" title="Autojs介绍及案例"><img data-lazy-src="https://s3.ax1x.com/2020/12/25/rflvB8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Autojs介绍及案例"/></a><div class="content"><a class="title" href="/2023/07/18/AutojsExample/" title="Autojs介绍及案例">Autojs介绍及案例</a><time datetime="2023-07-18T01:39:51.000Z" title="发表于 2023-07-18 09:39:51">2023-07-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/17/ExcelHelper/" title="NPOI Excel DataTable操作类"><img data-lazy-src="https://s3.ax1x.com/2020/12/25/rWSEzq.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NPOI Excel DataTable操作类"/></a><div class="content"><a class="title" href="/2023/07/17/ExcelHelper/" title="NPOI Excel DataTable操作类">NPOI Excel DataTable操作类</a><time datetime="2023-07-17T06:07:19.000Z" title="发表于 2023-07-17 14:07:19">2023-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/17/VerifyCode/" title="获取验证码图片"><img data-lazy-src="https://s3.ax1x.com/2020/12/27/r5EMfx.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="获取验证码图片"/></a><div class="content"><a class="title" href="/2023/07/17/VerifyCode/" title="获取验证码图片">获取验证码图片</a><time datetime="2023-07-17T06:06:31.000Z" title="发表于 2023-07-17 14:06:31">2023-07-17</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://s3.ax1x.com/2020/12/25/rW4nJg.jpg)"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Kezhan Wang</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script></div></body></html>
